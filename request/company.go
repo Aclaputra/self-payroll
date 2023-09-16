@@ -15,6 +15,10 @@ type (
 )
 
 // TODO: tuliskan validasi untuk CompanyRequest dengan rule semua field required
+func (r CompanyRequest) Validate() interface{} {
+
+	return nil
+}
 
 func (req TopupCompanyBalance) Validate() error {
 	return validation.ValidateStruct(

@@ -107,6 +107,16 @@ func (p *positionDelivery) EditPositionHandler(c echo.Context) error {
 	ctx := c.Request().Context()
 
 	//TODO: lakukan validasi request disini
+	var req request.PositionRequest
+
+	if err := c.Bind(&req); err != nil {
+		return helper.ResponseValidationErrorJson(c, "Error binding struct", err.Error())
+	}
+
+	if err := req.Validate(); err != nil {
+		errVal := err.(validation.Errors)
+		return helper.ResponseValidationErrorJson(c, "Error validation", errVal)
+	}
 
 	id := c.Param("id")
 	IdInt, _ := strconv.Atoi(id)
