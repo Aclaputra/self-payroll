@@ -27,15 +27,28 @@ func (p *positionRepository) FindByID(ctx context.Context, id int) (*model.Posit
 }
 
 func (p *positionRepository) Create(ctx context.Context, position *model.Position) (*model.Position, error) {
-	if err := p.Cfg.Database().WithContext(ctx).Create(&position).Error; err != nil {
+	if err := p.
+		Cfg.
+		Database().
+		WithContext(ctx).
+		Create(&position).
+		Error; err != nil {
+
 		return nil, err
 	}
+	
 	return position, nil
 }
 
 func (p *positionRepository) UpdateByID(ctx context.Context, id int, position *model.Position) (*model.Position, error) {
-	if err := p.Cfg.Database().WithContext(ctx).
-		Model(&model.Position{ID: id}).Updates(position).Find(position).Error; err != nil {
+	if err := p.
+		Cfg.
+		Database().
+		WithContext(ctx).
+		Model(&model.Position{ID: id}).
+		Updates(position).
+		Find(position).Error; err != nil {
+
 		return nil, err
 	}
 
