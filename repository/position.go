@@ -15,12 +15,12 @@ func NewPositionRepository(cfg config.Config) model.PositionRepository {
 }
 
 func (p *positionRepository) FindByID(ctx context.Context, id int) (*model.Position, error) {
-	position := new(model.Position)
+	// position := new(model.Position)
+	var position *model.Position
 
-	if err := p.Cfg.Database().
+	if err := p.Cfg.Database().Debug().
 		WithContext(ctx).
-		Where("id = ?", id).
-		First(position).Error; err != nil {
+		First(&position, id).Error; err != nil {
 		return nil, err
 	}
 	return position, nil
@@ -36,7 +36,7 @@ func (p *positionRepository) Create(ctx context.Context, position *model.Positio
 
 		return nil, err
 	}
-	
+
 	return position, nil
 }
 
@@ -57,13 +57,32 @@ func (p *positionRepository) UpdateByID(ctx context.Context, id int, position *m
 
 func (p *positionRepository) Delete(ctx context.Context, id int) error {
 
-	// TODO: Buat fungsi untuk mengapus posisi
-	panic("impelement me")
+	// TODO: (done) Buat fungsi untuk mengapus posisi
+	_, err := p.FindByID(ctx, id)
 
+	if err != nil {
+		return err
+	}
+
+	res := p.Cfg.Database().WithContext(ctx).
+		Delete(&model.Position{}, id)
+	if res.Error != nil {
+
+		return res.Error
+	}
+
+	return nil
 }
 
 func (p *positionRepository) Fetch(ctx context.Context, limit, offset int) ([]*model.Position, error) {
 
-	// TODO: Buat fungsi untuk mendapatkan data position berdasarkan parameter
-	panic("impelement me")
+	// TODO: (done) Buat fungsi untuk mendapatkan data position berdasarkan parameter
+	var data []*model.Position
+
+	if err := p.Cfg.Database().WithContext(ctx).
+		Limit(limit).Offset(offset).Find(&data).Error; err != nil {
+		return nil, err
+	}
+
+	return data, nil
 }

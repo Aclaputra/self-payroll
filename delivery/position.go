@@ -106,7 +106,7 @@ func (p *positionDelivery) DeletePositionHandler(c echo.Context) error {
 func (p *positionDelivery) EditPositionHandler(c echo.Context) error {
 	ctx := c.Request().Context()
 
-	//TODO: lakukan validasi request disini
+	//TODO: (done) lakukan validasi request disini
 	var req request.PositionRequest
 
 	if err := c.Bind(&req); err != nil {
