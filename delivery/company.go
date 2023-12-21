@@ -25,8 +25,10 @@ func (comp *companyDelivery) Mount(group *echo.Group) {
 
 	// TODO:
 	// 1. Buatlah handler yang mengarah ke fungsi comp.GetDetailCompanyHandler
+	group.GET("/topup", comp.GetDetailCompanyHandler)
 	// 2. Buatlah handler yang mengarah ke fungsi comp.UpdateOrCreateCompanyHandler
-
+	group.PUT("/topup", comp.UpdateOrCreateCompanyHandler)
+	
 	group.POST("/topup", comp.TopupBalanceHandler)
 
 }
